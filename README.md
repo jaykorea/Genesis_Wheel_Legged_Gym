@@ -19,7 +19,7 @@
   
   It's easy to use for those who are familiar with legged_gym and rsl_rl
 
-- **r**
+- **Wheeled Legged Robot**
 
 ---
 ## 🛠 Installation
@@ -44,8 +44,6 @@ conda create -n genesis-wlr python=3.10
   ```
 ---
 
-
-
 ## 🧪 Test Results
 
 ### Flamingo Sim2Real
@@ -58,8 +56,8 @@ conda create -n genesis-wlr python=3.10
 By default, the task is set to `go2`(in `utils/helper.py`), we can run a training session with the following command:
 
 ```bash
-cd legged_gym/scripts
-python train.py --headless # run training without rendering
+cd wheeled_legged_gym/scripts
+python train.py --task flamingo --num_envs 4096 --headless
 ```
 
 After the training is done, paste the `run_name` under `logs/go2` to `load_run` in `go2_config.py`: 
