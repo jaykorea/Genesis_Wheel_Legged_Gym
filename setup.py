@@ -13,6 +13,7 @@ setup(
                       'pymeshlab',
                       'prettytable',
                       'rsl-rl-lib',
-                      'onnxruntime',]
+                      'onnxruntime',
+                      'tensorboard',]
 )
 
