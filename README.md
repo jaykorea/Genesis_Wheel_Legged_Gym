@@ -14,12 +14,16 @@
 ✔️ **RSL_RL**: latest version of rsl-rl(2.2.4) lib adopted.  
 
 ## 🌟 Features
-
-- **Totally based on [legged_gym](https://github.com/leggedrobotics/legged_gym)**
-  
-  It's easy to use for those who are familiar with legged_gym and rsl_rl
-
-- **Wheeled Legged Robot**
+- **🧠 Genesis AI Integration**
+  Leverages the Genesis simulation framework, enabling high-speed, GPU-accelerated, and differentiable physics environments for advanced robotic learning.
+- **🦿 Wheeled-Legged Hybrid Robot Support**
+  Seamlessly supports both legged and wheeled locomotion. Includes configurations for Flamingo and Flamingo Light platforms.
+- **⚙️ Modular Environment Structure**
+  Built upon legged_gym and follows a modular architecture for easy customization of observations, rewards, actions, and terrains.
+-	**🧪 Sim-to-Real Transfer Friendly**
+  Built with domain randomization, actuator noise modeling, and observation smoothing techniques for zero-shot transfer to real hardware.
+- **📚 RSL-RL Integration (v2.2.4)**
+  Fully compatible with the latest rsl-rl release, ensuring easy use of PPO and other RL algorithms.
 
 ---
 ## 🛠 Installation
