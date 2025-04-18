@@ -1,4 +1,4 @@
-# [🛞]https://github.com/user-attachments/assets/01ebe3a4-c2dd-4215-8128-882aee685234 Wheeled Legged GYM with Genesis AI
+# [🛞](https://github.com/user-attachments/assets/01ebe3a4-c2dd-4215-8128-882aee685234) Wheeled Legged GYM with Genesis AI
 
 [![Genesis](https://github.com/user-attachments/assets/01ebe3a4-c2dd-4215-8128-882aee685234)](https://genesis-world.readthedocs.io/en/latest/user_guide/index.html)
 [![Python](https://img.shields.io/badge/python-3.10-blue.svg)](https://docs.python.org/3/whatsnew/3.10.html)
@@ -10,68 +10,22 @@
 ✔️ **Flamingo rev.1.5.1: Latest version of Flamingo added.  
 ✔️ **Flamingo Light v1**: Flamingo Light version added.  
 ✔️ **Stack Environment**: Observations can be stacked with arguments(cfg).
-✔️ **RSL_RL**: latest version of rsl-rl lib adopted
+✔️ **RSL_RL**: latest version of rsl-rl(2.2.4) lib adopted
 
 ---
-## 📅 Updates
+## 🏃‍♂️ Install
+1. Create Conda Env
+python >= 3.10 recommend
+```
+conda create -n genesis-wlr python=3.10
 
-<details>
-<summary>2025/03/22</summary>
-
-- I created a [new repo based on legged_gym](https://github.com/lupinjia/legged_gym_ext), containing custom implementation of some RL control papers.
-
-</details>
-
-<details>
-<summary>2025/02/23</summary>
-
-- find some bugs in genesis. The environments can return nan values without knowing why (https://github.com/Genesis-Embodied-AI/Genesis/issues/625), which can hinder long-time training where nan values may suddenly come out and terminates your training.
-
-  ![](./test_resources/nan_values_bug.png)
-
-</details>
-
-<details>
-<summary>2025/02/10</summary>
-
-- add measure_heights support, and provide a demo of exteroceptive locomotion ([go2_rough](https://github.com/lupinjia/genesis_lr/tree/main/legged_gym/envs/go2/go2_rough))
-
-![](./test_resources//go2_rough_demo.gif)
-
-</details>
-
-<details>
-<summary>2024/12/28</summary>
-
-- add [wiki page](https://github.com/lupinjia/genesis_lr/wiki) for instructions
-
-</details>
-
-<details>
-<summary>2024/12/26</summary>
-
-- add terrain support, optional terrain type: ["plane", "heightfield"]. 
-
-  ![](./test_resources/terrain_demo.gif)
-
-- move test results to [tests.md](./test_resources/tests.md)
-
-</details>
-
-<details>
-<summary>2024/12/24</summary>
-
-- add a new demo environment `bipedal_walker`
-
-</details>
-
-<details>
-<summary>2024/12/23</summary>
-
-- divide main and deploy branches, deploy branch should be used with a custom rsl_rl(which will be open-source soon)
-
-</details>
-
+```
+1. Install Latest Genesis AI (Direct install from git recommended)
+```
+git clone https://github.com/Genesis-Embodied-AI/Genesis.git
+cd Genesis
+pip install -e ".[dev]"
+```
 ---
 
 
