@@ -55,7 +55,7 @@ cd wheeled_legged_gym/scripts
 python train.py --task flamingo --num_envs 4096 --headless
 ```
 
-After the training is done, run `play.py` to visualize the trained model:
+After the training is done, run `play.py` to visualize the trained model:  
 By default, if 'load_run' argument is not provided, it will load the recent model path.
 ```bash
 cd wheeled_legged_gym/scripts
