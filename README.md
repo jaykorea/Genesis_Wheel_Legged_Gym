@@ -44,11 +44,6 @@ conda create -n genesis-wlr python=3.10
   ```
 ---
 
-## 🧪 Test Results
-
-### Flamingo Sim2Real
-### Flamingo Light Sim2Real
-
 ## 👋 Usage
 
 ### 🚀 Quick Start
@@ -68,15 +63,10 @@ Then, run `play.py` to visualize the trained model:
 
 ![](./test_resources/go2_flat_play.gif)
 
-### 📖 Instructions
+## 🧪 Test Results
 
-For more detailed instructions, please refer to the [wiki page](https://github.com/lupinjia/genesis_lr/wiki)
-
-## 🖼️ Gallery
-
-| Go2 | Bipedal Walker |
-|--- | --- |
-| ![](./test_resources/go2_flat_play.gif) | ![](./test_resources/bipedal_walker_flat.gif) |
+### Flamingo Sim2Real
+### Flamingo Light Sim2Real
 
 ## 🙏 Acknowledgements
 
@@ -87,10 +77,5 @@ For more detailed instructions, please refer to the [wiki page](https://github.c
 - [unitree_rl_gym](https://github.com/unitreerobotics/unitree_rl_gym)
 
 ## TODO
-
-- [x] Add domain randomization
-- [x] Verify the trained model on real robots.
-- [x] Add Heightfield support
-- [x] Add meausre_heights support
-- [ ] Add go2 deploy demos and instructions (vanilla and explicit estimator)
-- [ ] Add teacher-student implementation
+- [ ] Add env origin handler
+- [ ] Add ISIM
