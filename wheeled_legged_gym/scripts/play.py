@@ -18,7 +18,7 @@ def get_args():
     parser.add_argument('--device',         type=str , default="cuda")
     parser.add_argument("--precision",      type=str, default="32")
     parser.add_argument('--seed',           type=int, default=42)
-    parser.add_argument('--num_envs',       type=int, default=4096)
+    parser.add_argument('--num_envs',       type=int, default=1)
     parser.add_argument('--check_point',    type=int, default=-1)
     parser.add_argument('--max_iterations', type=int, default=3000)
     parser.add_argument('--resume',         type=str, default=False)

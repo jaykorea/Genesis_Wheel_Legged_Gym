@@ -5,7 +5,7 @@ import numpy as np
 import os
 import textwrap
 from prettytable import PrettyTable
-
+import re
 import torch
 
 from wheeled_legged_gym import WHEELED_LEGGED_GYM_ROOT_DIR
@@ -49,9 +49,10 @@ class LeggedRobot(BaseTask):
         clip_actions = self.cfg.normalization.clip_actions
         self.actions = torch.clip(actions, -clip_actions, clip_actions).to(self.device)
         exec_actions = self.last_actions if self.simulate_action_latency else self.actions
+
         if self.cfg.control.use_implicit_controller: # use embedded pd controller
-            self.applied_torques = self._compute_torques(exec_actions) # calculate torque with explicit pd controller
-            self.torques = self.robot.get_dofs_control_force(self.motor_dofs)
+            self.torques = self._compute_torques(exec_actions) # calculate torque with explicit pd controller
+            # self.torques = self.robot.get_dofs_force(self.motor_dofs) # It is already clipped
             if self.has_p:
                 target_dof_pos = self._compute_target_dof_pos(exec_actions[:, self.p_indices])
                 self.robot.control_dofs_position(target_dof_pos, self.p_motor_dofs)
@@ -62,11 +63,12 @@ class LeggedRobot(BaseTask):
         else:
             for _ in range(self.cfg.control.decimation): # use self-implemented pd controller
                 self.torques = self._compute_torques(exec_actions)
+                torques_clipped = torch.clip(self.torques, -(self.torque_limits.repeat(self.num_envs, 1)), self.torque_limits.repeat(self.num_envs, 1))
                 if self.num_build_envs == 0:
-                    torques = self.torques.squeeze()
+                    torques = torques_clipped.squeeze()
                     self.robot.control_dofs_force(torques, self.motor_dofs)
                 else:
-                    self.robot.control_dofs_force(self.torques, self.motor_dofs)
+                    self.robot.control_dofs_force(torques_clipped, self.motor_dofs)
                 self.scene.step()
                 self.dof_pos[:] = self.robot.get_dofs_position(self.motor_dofs)
                 self.dof_vel[:] = self.robot.get_dofs_velocity(self.motor_dofs)
@@ -96,8 +98,9 @@ class LeggedRobot(BaseTask):
         # compute observations, rewards, resets, ...
         self._get_observations()
         self._post_physics_step_callback()
-        self.compute_observations() # in some cases a simulation step might be required to refresh some obs (for example body positions)
+        self.compute_observations()
 
+        # compute rew_buf
         self.compute_reward()
         
         # compute reset_buf
@@ -207,11 +210,7 @@ class LeggedRobot(BaseTask):
         # prepare quantities
         self.base_pos[:] = self.robot.get_pos()
         self.base_quat[:] = self.robot.get_quat()
-        # base_quat_rel = gs_quat_mul(self.base_quat, gs_inv_quat(self.base_init_quat.reshape(1, -1).repeat(self.num_envs, 1)))
-        # self.base_euler[:] = gs_quat2euler(base_quat_rel)
         self.base_euler[:] = quat_to_xyz(transform_quat_by_quat(torch.ones_like(self.base_quat) * self.inv_base_init_quat, self.base_quat), degrees=False)
-        
-        inv_quat_yaw = gs_quat_from_angle_axis(-self.base_euler[:, 2], torch.tensor([0, 0, 1], device=self.device, dtype=self.precision))
         inv_base_quat = inv_quat(self.base_quat)
         self.base_lin_vel[:] = gs_transform_by_quat(self.robot.get_vel(), inv_base_quat) # trasform to base frame
         self.base_ang_vel[:] = gs_transform_by_quat(self.robot.get_ang(), inv_base_quat)
@@ -301,6 +300,8 @@ class LeggedRobot(BaseTask):
         self.obs_buf = torch.cat([self.stacked_obs_buf, self.commands * self.commands_scale], dim=-1)
         if self.privileged_obs_buf is not None:
             self.privileged_obs_buf = torch.cat([self.stacked_priv_obs_buf, self.commands * self.commands_scale], dim=-1)
+        else:
+            self.privileged_obs_buf = self.obs_buf
 
         
     def create_sim(self):
@@ -415,23 +416,20 @@ class LeggedRobot(BaseTask):
         self.commands[env_ids, :2] *= (torch.norm(self.commands[env_ids, :2], dim=1) > 0.2).unsqueeze(1)
 
     def _compute_torques(self, actions):
-        # P 제어 관절: 목표 위치 계산 후, PD 제어 공식 적용
+        # Todo : handle pos/vel control in case of no p or v indices
         target_pos = self._compute_target_dof_pos(actions[:, self.p_indices])  # shape: (batch, len(p_indices))
         error_p = target_pos - self.dof_pos[:, self.p_indices]
         torque_p = self.batched_p_gains[:, self.p_indices] * error_p - self.batched_d_gains[:, self.p_indices] * self.dof_vel[:, self.p_indices]
         
-        # V 제어 관절: 목표 속도 계산 후, 단순 비례 제어 (속도 오차에 대해서)
         target_vel = self._compute_target_dof_vel(actions[:, self.v_indices])  # shape: (batch, len(v_indices))
         error_v = target_vel - self.dof_vel[:, self.v_indices]
         torque_v = self.batched_d_gains[:, self.v_indices] * error_v
 
-        # 전체 motor_dofs 순서에 맞게 두 그룹의 결과를 합칩니다.
         torque = torch.zeros((self.num_envs, len(self.motor_dofs)), device=self.device, dtype=self.dof_pos.dtype)
         torque[:, self.p_indices] = torque_p
         torque[:, self.v_indices] = torque_v
-        
-        torques_clipped = torch.clip(torque, -(self.torque_limits.repeat(self.num_envs, 1)), self.torque_limits.repeat(self.num_envs, 1))
-        return torques_clipped # force the torques to be within the limits
+
+        return torque
 
     def _compute_target_dof_pos(self, actions):
         actions_scaled_p = actions * self.cfg.control.control_p.action_scale
@@ -439,7 +437,6 @@ class LeggedRobot(BaseTask):
         return target_dof_pos
 
     def _compute_target_dof_vel(self, actions):
-        # actions의 shape는 이미 (num_envs, len(v_indices)) 이어야 함.
         action_scaled_v = actions * self.cfg.control.control_v.action_scale
         return action_scaled_v
 
@@ -474,6 +471,9 @@ class LeggedRobot(BaseTask):
         )
 
         self.dof_vel[envs_idx] = 0.0
+
+        # reset dof velocity to zero
+        self.robot.zero_all_dofs_velocity(envs_idx)
         
     def _reset_root_states(self, envs_idx):
         """ Resets ROOT states position and velocities of selected environmments
@@ -492,7 +492,6 @@ class LeggedRobot(BaseTask):
             self.base_pos[envs_idx] += self.env_origins[envs_idx]
 
         # Reset base position and orientation.
-        # self.base_pos[envs_idx] = self.base_init_pos
         self.base_quat[envs_idx] = self.base_init_quat.reshape(1, -1)
 
         roll  = gs_rand_uniform_float(*self.cfg.init_state.ranges.roll, len(envs_idx), self.device, dtype=self.precision)
@@ -509,19 +508,20 @@ class LeggedRobot(BaseTask):
         self.base_euler[envs_idx] = quat_to_xyz(transformed_quat, degrees=False)
         self.projected_gravity[envs_idx] = transform_by_quat(self.global_gravity[envs_idx], inv_quat(self.base_quat[envs_idx]))
         
-        # reset root states - velocity
+        # reset root states - linear velocity
         lin_x = gs_rand_uniform_float(*self.cfg.init_state.ranges.lin_vel_x, len(envs_idx), self.device, dtype=self.precision)
         lin_y = gs_rand_uniform_float(*self.cfg.init_state.ranges.lin_vel_y, len(envs_idx), self.device, dtype=self.precision)
         lin_z = gs_rand_uniform_float(*self.cfg.init_state.ranges.lin_vel_z, len(envs_idx), self.device, dtype=self.precision)
         self.base_lin_vel[envs_idx] = torch.stack([lin_x, lin_y, lin_z], dim=-1).to(device=self.device, dtype=self.precision)
-
+        # reset root states - angular velocity
         ang_x = gs_rand_uniform_float(*self.cfg.init_state.ranges.ang_vel_x, len(envs_idx), self.device, dtype=self.precision)
         ang_y = gs_rand_uniform_float(*self.cfg.init_state.ranges.ang_vel_y, len(envs_idx), self.device, dtype=self.precision)
-        ang_z = torch.zeros_like(ang_x)  # z 축은 설정 안 했으므로 0으로 초기화
+        ang_z = gs_rand_uniform_float(*self.cfg.init_state.ranges.ang_vel_z, len(envs_idx), self.device, dtype=self.precision)
         self.base_ang_vel[envs_idx] = torch.stack([ang_x, ang_y, ang_z], dim=-1).to(device=self.device, dtype=self.precision)
         
-        # reset dof velocity to zero
-        self.robot.zero_all_dofs_velocity(envs_idx)
+        base_vel = torch.concat([self.base_lin_vel[envs_idx], self.base_ang_vel[envs_idx]], dim=1)
+        self.robot.set_dofs_velocity(velocity=base_vel, dofs_idx_local=self.base_dofs, envs_idx=envs_idx)
+
 
     def _push_robots(self):
         """ Random pushes the robots. Emulates an impulse by setting a randomized base velocity. 
@@ -753,7 +753,16 @@ class LeggedRobot(BaseTask):
         self.all_dofs = [self.robot.get_joint(name).dof_idx_local for name in self.all_dof_names]
         # Get Active motor dof indices.
         self.motor_dofs = [self.robot.get_joint(name).dof_idx_local for name in self.dof_names]
+        # Get Active motor dof indices in all_dofs.
         self.motor_dofs_local = [self.all_dofs.index(i) for i in self.motor_dofs]
+        # Get Base free joint
+        assert len(self.base_dof_names) == 1, f"Base joint name should be unique. Found {len(self.base_dof_names)} base joints."
+        if self.cfg.asset.asset_type == "urdf":
+            self.base_dofs = [0, 1, 2, 3, 4, 5]
+        elif self.cfg.asset.asset_type == "mjcf":
+            self.base_dofs = self.robot.get_joint(self.base_dof_names[0]).dof_idx_local
+        # Get active joint idx from name 
+        self.joint_name_to_idx = {name: idx for idx, name in enumerate(self.dof_names)}
 
         # Randomize friction, base mass, and COM displacement if configured.
         if self.cfg.domain_rand.randomize_friction:
@@ -830,7 +839,9 @@ class LeggedRobot(BaseTask):
         
         # DOF position limits.
         self.dof_pos_limits = torch.stack(self.robot.get_dofs_limit(self.motor_dofs), dim=1)
-        self.torque_limits = self.robot.get_dofs_force_range(self.motor_dofs)[0]
+        # Todo: handle torque limits above
+        self.torque_limits = self.robot.get_dofs_force_range(self.motor_dofs)[1]
+
         for i in range(self.dof_pos_limits.shape[0]):
             m = (self.dof_pos_limits[i, 0] + self.dof_pos_limits[i, 1]) / 2
             r = self.dof_pos_limits[i, 1] - self.dof_pos_limits[i, 0]
@@ -957,7 +968,7 @@ class LeggedRobot(BaseTask):
 
         self.all_dof_names = self.cfg.asset.all_dof_names if self.cfg.asset.all_dof_names is not None else self.cfg.asset.dof_names
         self.dof_names = self.cfg.asset.dof_names
-
+        self.base_dof_names = self.cfg.asset.base_dof_names
         self.simulate_action_latency = self.cfg.domain_rand.simulate_action_latency
         self.debug = self.cfg.env.debug
 
@@ -970,8 +981,6 @@ class LeggedRobot(BaseTask):
         else:
             raise ValueError(f"Unknown precision: {self.cfg.precision}")
         
-
-
     def _draw_debug_vis(self):
         """ Draws visualizations for dubugging (slows down simulation a lot).
             Default behaviour: draws height measurement points
@@ -1071,6 +1080,21 @@ class LeggedRobot(BaseTask):
         heights = torch.min(heights, heights3)
 
         return heights.view(self.num_envs, -1) * self.cfg.terrain.vertical_scale
+
+    def get_joint_name_idx(self, joint_names):
+        """
+        Returns the list of joint indices matching the given regex pattern.
+
+        Args:
+            pattern (str): Regex pattern for joint names (e.g., '.*_shoulder_joint')
+
+        Returns:
+            List[int]: List of indices (not torch.Tensor)
+        """
+        return [
+            idx for name, idx in self.joint_name_to_idx.items()
+            if re.fullmatch(joint_names, name)
+        ]
 
     #------------ reward functions----------------
     def _reward_tracking_lin_vel(self):

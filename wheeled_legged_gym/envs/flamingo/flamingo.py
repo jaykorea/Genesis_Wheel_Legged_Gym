@@ -4,6 +4,8 @@ from wheeled_legged_gym.envs.base.wheeled_legged_robot import LeggedRobot
 from wheeled_legged_gym.utils.gs_utils import *
 
 class Flamingo(LeggedRobot):
+    """ Flamingo class """
+
     def compute_single_observations(self):
         """ Computes single observations
             Returns a tensor of shape (num_envs, num_obs)
@@ -57,15 +59,6 @@ class Flamingo(LeggedRobot):
         return noise_vec
 
     #------------ reward functions----------------
-    def _reward_applied_torque_limits(self):
-        """ Computes the reward for applied torque limits
-            Returns a tensor of shape (num_envs, 1)
-        """
-        out_of_limits = torch.abs(
-            self.torques - self.applied_torques
-        )
-        return torch.sum(out_of_limits, dim=1)
-    
     def _reward_shoulder_align(self):
         """ Computes the reward for shoulder alignment
             Returns a tensor of shape (num_envs, 1)
@@ -78,4 +71,20 @@ class Flamingo(LeggedRobot):
             Returns a tensor of shape (num_envs, 1)
         """
         penalty = torch.square(self.dof_pos[:, 0] - self.dof_pos[:, 1])
+        return penalty
+    
+    def _reward_hip_deviations(self):
+        """ Computes the reward for hip joint deviations
+            Returns a tensor of shape (num_envs, 1)
+        """
+        indices = self.get_joint_name_idx(".*_hip_joint")
+        penalty = torch.sum(torch.square(self.dof_pos[:, indices] - self.default_dof_pos[indices]), dim=1)
+        return penalty
+    
+    def _reward_shoulder_deviations(self):
+        """Computes the reward for shoulder joint deviations.
+        Returns a tensor of shape (num_envs, 1)
+        """
+        indices = self.get_joint_name_idx(".*_shoulder_joint")
+        penalty = torch.sum(torch.square(self.dof_pos[:, indices] - self.default_dof_pos[indices]), dim=1)
         return penalty

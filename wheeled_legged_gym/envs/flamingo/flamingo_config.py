@@ -73,14 +73,14 @@ class FlamingoCfg( WheeledLeggedRobotCfg ):
         decimation = 4
         class control_p:
             stiffness = {
-                'left_hip_joint': 100.0      , 'right_hip_joint': 100.0,
-                'left_shoulder_joint': 100.0 , 'right_shoulder_joint': 100.0,
-                'left_leg_joint': 150.0      , 'right_leg_joint': 150.0,
+                'left_hip_joint': 75.0      , 'right_hip_joint': 75.0,
+                'left_shoulder_joint': 75.0 , 'right_shoulder_joint': 75.0,
+                'left_leg_joint': 75.0      , 'right_leg_joint': 75.0,
                 } # [N*m/rad]
             damping = {
-                'left_hip_joint': 4.0       , 'right_hip_joint': 4.0,
-                'left_shoulder_joint': 4.0  , 'right_shoulder_joint': 4.0,
-                'left_leg_joint': 4.5       , 'right_leg_joint': 4.5,
+                'left_hip_joint': 1.5       , 'right_hip_joint': 1.5,
+                'left_shoulder_joint': 1.5  , 'right_shoulder_joint': 1.5,
+                'left_leg_joint': 1.5       , 'right_leg_joint': 1.5,
                 } # [N*m*s/rad]
             torque_limit =  {
                 'left_hip_joint': 60.0      , 'right_hip_joint': 60.0,
@@ -96,7 +96,7 @@ class FlamingoCfg( WheeledLeggedRobotCfg ):
 
         class control_v:
             stiffness =     {'left_wheel_joint': 0.0,  'right_wheel_joint': 0.0}  # [N*m/rad]
-            damping =       {'left_wheel_joint': 0.3, 'right_wheel_joint': 0.3}     # [N*m*s/rad]
+            damping =       {'left_wheel_joint': 0.4, 'right_wheel_joint': 0.4}     # [N*m*s/rad]
             torque_limit =  {'left_wheel_joint': 60.0, 'right_wheel_joint': 60.0} # [N*m]
             vel_limit =     {'left_wheel_joint': 20.0, 'right_wheel_joint': 20.0}
             action_scale = 20.0
@@ -109,15 +109,17 @@ class FlamingoCfg( WheeledLeggedRobotCfg ):
         elif asset_type == "mjcf":
             file = '{WHEELED_LEGGED_GYM_ROOT_DIR}/resources/robots/flamingo/xml/flamingo_v1_5_1.xml'
 
+        base_dof_names = ["base_free_joint"]
         dof_names = [ # specify the sequence of actions
             'left_hip_joint'      , 'right_hip_joint',
             'left_shoulder_joint' , 'right_shoulder_joint',
             'left_leg_joint'      , 'right_leg_joint',
             'left_wheel_joint'    , 'right_wheel_joint'
         ]
+
         foot_name = ["wheel"]
         penalize_contacts_on = ["base", "shoulder", "leg"]
-        terminate_after_contacts_on = ["base"]
+        terminate_after_contacts_on = ["base", "shoulder", "leg"]
         links_to_keep = []
         self_collisions = False
   
@@ -126,30 +128,38 @@ class FlamingoCfg( WheeledLeggedRobotCfg ):
         tracking_sigma = 0.25 # tracking reward = exp(-error^2/sigma)
         soft_dof_pos_limit = 0.9
         soft_dof_vel_limit = 0.9
+        soft_torque_limit = 0.8
         base_height_target = 0.36288 # 0.36288
         class scales( WheeledLeggedRobotCfg.rewards.scales ):
             # command tracking
             tracking_lin_vel = 2.0
             tracking_ang_vel = 1.0
+            
             # limitation
-            applied_torque_limits = -0.0
-            dof_pos_limits = -0.0
+            torque_limits = -0.01
+            dof_pos_limits = -10.0
             dof_vel_limits = -0.0
             collision = -1.0
-            hip_align = -5.0
+            hip_align = -2.0
             shoulder_align = -1.0
+            hip_deviations = -1.0
+            shoulder_deviations = -1.0
+
             # smooth
-            ang_vel_xy = -0.05
-            lin_vel_z = -1.0
-            base_height = -20.0
-            orientation = -2.0
             dof_vel = 0.0
             dof_acc = -2.5e-7
             action_rate = -0.01
-            torques = -5.0e-5
+            torques = -5.0e-6
+
+            # balance
+            ang_vel_xy = -0.05
+            lin_vel_z = -1.0
+            base_height = -15.0
+            orientation = -1.5
+            dof_close_to_default = -0.0
             # gait
             feet_air_time = 0.0
-            dof_close_to_default = -0.0
+
             # Termination
             termination = -200.0
         
@@ -182,21 +192,10 @@ class FlamingoCfg( WheeledLeggedRobotCfg ):
 
         simulate_action_latency = True # 1 step delay
 
-    class normalization:
-        class obs_scales:
-            dof_pos = 1.0
-            dof_vel = 1
-            ang_vel = 1
-            gravity = 1.0
-            lin_vel = 1
-            height_measurements = 5.0
-        clip_observations = 100.
-        clip_actions = 1.
-
     class noise:
         add_noise = True
         noise_level = 1.0 # scales other values
-        #* It should be matched with the observation buffer size
+        #* It should be matched with the single observation buffer size
         class noise_scales:
             dof_pos = 0.04
             dof_vel = 1.5

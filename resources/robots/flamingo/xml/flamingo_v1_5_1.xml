@@ -24,10 +24,10 @@
         </default>
 
         <default class='joints'>
-            <joint damping="0.75" stiffness="0.0" frictionloss="0.1" armature="0.01" actuatorfrclimited="true" actuatorfrcrange="-60 60"/>
+            <joint damping="0.75" stiffness="0.0" frictionloss="0.1" armature="0.01" actuatorfrclimited="true" actuatorfrcrange="-1000 1000"/>
         </default>
         <default class='wheels'>
-            <joint damping="0.0" stiffness="0.0" frictionloss="0.1" armature="0.01" actuatorfrclimited="true" actuatorfrcrange="-60 60"/>
+            <joint damping="0.0" stiffness="0.0" frictionloss="0.1" armature="0.01" actuatorfrclimited="true" actuatorfrcrange="-1000 1000"/>
         </default>
     </default>
 
@@ -49,7 +49,7 @@
                     <inertial pos="0.011697 -0.0143515 0.039404" quat="0.155543 0.532859 -0.374994 0.74246" mass="1.5513" diaginertia="0.00893024 0.00889867 0.00212189"/>
                     <geom type="mesh" rgba="0.15 0.15 0.15 1" mesh="left_shoulder_link" class="visual"/>
                     <joint name="left_shoulder_joint" pos="0 0 0" axis="0 0 1" range="-1.0754 1.0754" class="joints"/>
-                    <geom size="0.028 0.1125 0.02375" pos="0.06 -0.06 0.085" quat="0.338946 0 0 -0.940806" type="box" rgba="0.8 0.2 0.2 0.3" class="collision"/>
+                    <geom size="0.015 0.1125 0.02375" pos="0.06 -0.06 0.085" quat="0.338946 0 0 -0.940806" type="box" rgba="0.8 0.2 0.2 0.3" class="collision"/>
                     <body name="left_leg_link" pos="0.14138 -0.16856 0.0895">
                     <inertial pos="-0.18286 -0.115381 -0.0463015" quat="-0.208425 0.642861 0.190843 0.711947" mass="1.2006" diaginertia="0.00681281 0.00654077 0.00114482"/>
                     <geom type="mesh" rgba="0.15 0.15 0.15 1" mesh="left_leg_link" class="visual"/>
@@ -73,7 +73,7 @@
                     <inertial pos="-0.0128798 -0.014462 0.0394047" quat="0.742397 0.374773 -0.533015 0.155842" mass="1.5513" diaginertia="0.00893029 0.00889871 0.00212192"/>
                     <geom type="mesh" rgba="0.15 0.15 0.15 1" mesh="right_shoulder_link" class="visual"/>
                     <joint name="right_shoulder_joint" pos="0 0 0" axis="0 0 -1" range="-1.0754 1.0754" class="joints"/>
-                    <geom size="0.028 0.1125 0.02375" pos="-0.06 -0.06 0.085" quat="0.338946 0 0 0.940806" type="box" rgba="0.8 0.2 0.2 0.3" class="collision"/>
+                    <geom size="0.028 0.1125 0.0175" pos="-0.06 -0.06 0.085" quat="0.338946 0 0 0.940806" type="box" rgba="0.8 0.2 0.2 0.3" class="collision"/>
                     <body name="right_leg_link" pos="-0.14138 -0.16856 0.0895">
                     <inertial pos="0.182461 -0.116691 -0.0463385" quat="0.19256 0.712522 -0.20649 0.642336" mass="1.2006" diaginertia="0.00681563 0.0065466 0.00114254"/>
                     <geom type="mesh" rgba="0.15 0.15 0.15 1" mesh="right_leg_link" class="visual"/>
@@ -134,15 +134,15 @@
     </asset>
 
     <actuator>
-        <motor joint="left_hip_joint" name="left_hip_joint" ctrllimited="true" ctrlrange="-60 60"  gear="1" />
-        <motor joint="right_hip_joint" name="right_hip_joint" ctrllimited="true" ctrlrange="-60 60"  gear="1"/>
-        <motor joint="left_shoulder_joint" name="left_shoulder_joint" ctrllimited="true" ctrlrange="-60 60"  gear="1"/>
-        <motor joint="right_shoulder_joint" name="right_shoulder_joint" ctrllimited="true" ctrlrange="-60 60"  gear="1"/>
-        <motor joint="left_leg_joint" name="left_leg_joint" ctrllimited="true" ctrlrange="-60 60"  gear="1"/>
-        <motor joint="right_leg_joint" name="right_leg_joint" ctrllimited="true" ctrlrange="-60 60"  gear="1"/>
+        <motor joint="left_hip_joint" name="left_hip_joint" ctrllimited="true" ctrlrange="-1000 1000"  gear="1" />
+        <motor joint="right_hip_joint" name="right_hip_joint" ctrllimited="true" ctrlrange="-1000 1000"  gear="1"/>
+        <motor joint="left_shoulder_joint" name="left_shoulder_joint" ctrllimited="true" ctrlrange="-1000 1000"  gear="1"/>
+        <motor joint="right_shoulder_joint" name="right_shoulder_joint" ctrllimited="true" ctrlrange="-1000 1000"  gear="1"/>
+        <motor joint="left_leg_joint" name="left_leg_joint" ctrllimited="true" ctrlrange="-1000 1000"  gear="1"/>
+        <motor joint="right_leg_joint" name="right_leg_joint" ctrllimited="true" ctrlrange="-1000 1000"  gear="1"/>
 
-        <motor joint="left_wheel_joint" name="left_wheel_joint" ctrllimited="true" ctrlrange="-60 60" gear="1"/>
-        <motor joint="right_wheel_joint" name="right_wheel_joint"  ctrllimited="true" ctrlrange="-60 60" gear="1"/>
+        <motor joint="left_wheel_joint" name="left_wheel_joint" ctrllimited="true" ctrlrange="-1000 1000" gear="1"/>
+        <motor joint="right_wheel_joint" name="right_wheel_joint"  ctrllimited="true" ctrlrange="-1000 1000" gear="1"/>
     </actuator>
 <!-- 
     <sensor>

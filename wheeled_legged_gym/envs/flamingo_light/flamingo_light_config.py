@@ -77,6 +77,7 @@ class FlamingoLightCfg( WheeledLeggedRobotCfg ):
         asset_type = "mjcf"
         convexify = True
         file = '{WHEELED_LEGGED_GYM_ROOT_DIR}/resources/robots/flamingo_light/xml/flamingo_light_v1.xml'
+        base_dof_names = ["base_free_joint"]
         all_dof_names = [
             'left_shoulder_joint',
             'right_shoulder_joint',
@@ -92,6 +93,7 @@ class FlamingoLightCfg( WheeledLeggedRobotCfg ):
             'right_shoulder_joint',
             'left_wheel_joint',
             'right_wheel_joint',]
+
         foot_name = ["wheel"]
         penalize_contacts_on = ["base", "leg"]
         terminate_after_contacts_on = ["base", "leg"]
@@ -154,7 +156,7 @@ class FlamingoLightCfg( WheeledLeggedRobotCfg ):
         push_interval_s = 15
         max_push_vel_xy = 0.5
 
-        simulate_action_latency = True # 1 step delay
+        simulate_action_latency = False # 1 step delay
 
 
     class noise:

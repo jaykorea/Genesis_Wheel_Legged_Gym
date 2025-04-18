@@ -106,6 +106,7 @@ class WheeledLeggedRobotCfg(BaseConfig):
         file = '{WHEELED_LEGGED_GYM_ROOT_DIR}/resources/robots/'
         all_dof_names = None
         dof_names = ["joint_a", "joint_b"]
+        base_dof_names = ["base_joint"]
         links_to_keep = []     # links that are not merged because of fixed joints
         foot_name = "None"     # name of the feet bodies, used to index body state and contact force tensors
         penalize_contacts_on = []
