@@ -55,13 +55,12 @@ cd wheeled_legged_gym/scripts
 python train.py --task flamingo --num_envs 4096 --headless
 ```
 
-After the training is done, paste the `run_name` under `logs/go2` to `load_run` in `go2_config.py`: 
-
-![](./test_resources/paste_load_run.png)
-
-Then, run `play.py` to visualize the trained model:
-
-![](./test_resources/go2_flat_play.gif)
+After the training is done, run `play.py` to visualize the trained model:
+By default, if 'load_run' argument is not provided, it will load the recent model path.
+```bash
+cd wheeled_legged_gym/scripts
+python play.py --task flamingo --num_envs 1 
+```
 
 ## 🧪 Test Results
 
