@@ -33,7 +33,7 @@ conda create -n genesis-wlr python=3.10
   ```
 3. Clone repo and install requirements
   ```
-  git clone
+  git clone https://github.com/jaykorea/Genesis_Wheeled_Legged_Gym.git
   pip install -e .
   ```
 4. Install Latest Genesis AI (Direct install from git recommended)
