@@ -1,6 +1,6 @@
 # [🛞](https://github.com/user-attachments/assets/01ebe3a4-c2dd-4215-8128-882aee685234) Wheeled Legged GYM with Genesis AI
 
-[![Genesis](https://github.com/user-attachments/assets/01ebe3a4-c2dd-4215-8128-882aee685234)](https://genesis-world.readthedocs.io/en/latest/user_guide/index.html)
+[![Genesis](https://img.shields.io/badge/genesis_ai-blue)](https://genesis-world.readthedocs.io/en/latest/user_guide/index.html)
 [![Python](https://img.shields.io/badge/python-3.10-blue.svg)](https://docs.python.org/3/whatsnew/3.10.html)
 [![Linux platform](https://img.shields.io/badge/platform-linux--64-orange.svg)](https://releases.ubuntu.com/20.04/)
 [![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://pre-commit.com/)
@@ -12,6 +12,14 @@
 ✔️ **Flamingo Light v1**: Flamingo Light version added.  
 ✔️ **Stack Environment**: Observations can be stacked with arguments(cfg).
 ✔️ **RSL_RL**: latest version of rsl-rl(2.2.4) lib adopted
+
+## 🌟 Features
+
+- **Totally based on [legged_gym](https://github.com/leggedrobotics/legged_gym)**
+  
+  It's easy to use for those who are familiar with legged_gym and rsl_rl
+
+- **r**
 
 ---
 ## 🛠 Installation
@@ -37,42 +45,11 @@ conda create -n genesis-wlr python=3.10
 ---
 
 
-## 🌟 Features
-
-- **Totally based on [legged_gym](https://github.com/leggedrobotics/legged_gym)**
-  
-  It's easy to use for those who are familiar with legged_gym and rsl_rl
-
-- **Faster and Smaller**
-  
-  For a go2 walking on the plane task with 4096 envs, the training speed in Genesis is approximately **1.3x** compared to [Isaac Gym](https://developer.nvidia.com/isaac-gym), while the graphics memory usage is roughly **1/2** compared to IsaacGym.
-
-  With this smaller memory usage, it's possible to **run more parallel environments**, which can further improve the training speed.
 
 ## 🧪 Test Results
 
-For tests conducted on Genesis, please refer to [tests.md](./test_resources/tests.md)
-
-## 🛠 Installation
-
-1. Create a new python virtual env with python>=3.9
-2. Install [PyTorch](https://pytorch.org/)
-3. Install Genesis following the instructions in the [Genesis repo](https://github.com/Genesis-Embodied-AI/Genesis)
-4. Install rsl_rl and tensorboard
-   ```bash
-   # Install rsl_rl.
-   git clone https://github.com/leggedrobotics/rsl_rl
-   cd rsl_rl && git checkout v1.0.2 && pip install -e . --use-pep517
-
-   # Install tensorboard.
-   pip install tensorboard
-   ```
-5. Install genesis_lr
-   ```bash
-   git clone https://github.com/lupinjia/genesis_lr
-   cd genesis_lr
-   pip install -e .
-   ```
+### Flamingo Sim2Real
+### Flamingo Light Sim2Real
 
 ## 👋 Usage
 
