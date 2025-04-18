@@ -7,25 +7,33 @@
 [![License](https://img.shields.io/badge/license-MIT-yellow.svg)](https://opensource.org/license/mit)
 
 ## **✨ New Features - Updated 🚀**
+✔️ **Compatibility**: Fully adaptable with  leg / wheel robots
 ✔️ **Flamingo rev.1.5.1: Latest version of Flamingo added.  
 ✔️ **Flamingo Light v1**: Flamingo Light version added.  
 ✔️ **Stack Environment**: Observations can be stacked with arguments(cfg).
 ✔️ **RSL_RL**: latest version of rsl-rl(2.2.4) lib adopted
 
 ---
-## 🏃‍♂️ Install
-1. Create Conda Env
-python >= 3.10 recommend
-```
+## 🛠 Installation
+1. Create Conda Env (python >= 3.10 recommend)
+  ```
 conda create -n genesis-wlr python=3.10
-
-```
-1. Install Latest Genesis AI (Direct install from git recommended)
-```
-git clone https://github.com/Genesis-Embodied-AI/Genesis.git
-cd Genesis
-pip install -e ".[dev]"
-```
+  ```
+2. Install torch
+  ```
+  https://pytorch.org/get-started/locally/
+  ```
+3. Clone repo and install requirements
+  ```
+  git clone
+  pip install -e .
+  ```
+4. Install Latest Genesis AI (Direct install from git recommended)
+  ```
+  git clone https://github.com/Genesis-Embodied-AI/Genesis.git
+  cd Genesis
+  pip install -e ".[dev]"
+  ```
 ---
 
 
