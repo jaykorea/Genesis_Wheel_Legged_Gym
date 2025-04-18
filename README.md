@@ -75,6 +75,7 @@ Then, run `play.py` to visualize the trained model:
 - [legged_gym](https://github.com/leggedrobotics/legged_gym)
 - [rsl_rl](https://github.com/leggedrobotics/rsl_rl)
 - [unitree_rl_gym](https://github.com/unitreerobotics/unitree_rl_gym)
+- [genesis legged gym](https://github.com/lupinjia/genesis_lr)
 
 ## TODO
 - [ ] Add env origin handler
