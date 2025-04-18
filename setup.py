@@ -12,6 +12,7 @@ setup(
     install_requires=['matplotlib',
                       'pymeshlab',
                       'prettytable',
-                      'rsl-rl-lib',]
+                      'rsl-rl-lib',
+                      'onnxruntime',]
 )
 
