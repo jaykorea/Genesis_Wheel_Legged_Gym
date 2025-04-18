@@ -1,4 +1,4 @@
-# (https://github.com/user-attachments/assets/01ebe3a4-c2dd-4215-8128-882aee685234) Wheeled Legged GYM with Genesis AI
+# https://github.com/user-attachments/assets/01ebe3a4-c2dd-4215-8128-882aee685234 Wheeled Legged GYM with Genesis AI
 
 [![Genesis](https://github.com/user-attachments/assets/01ebe3a4-c2dd-4215-8128-882aee685234)](https://genesis-world.readthedocs.io/en/latest/user_guide/index.html)
 [![Python](https://img.shields.io/badge/python-3.10-blue.svg)](https://docs.python.org/3/whatsnew/3.10.html)
