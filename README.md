@@ -1,21 +1,16 @@
-# 🦿 Legged Robotics in Genesis
+# 🛞 Wheeled Legged GYM with Genesis AI
 
-A [legged_gym](https://github.com/leggedrobotics/legged_gym) based framework for training legged robots in [genesis](https://github.com/Genesis-Embodied-AI/Genesis/tree/main)
+[![Genesis](https://github.com/user-attachments/assets/01ebe3a4-c2dd-4215-8128-882aee685234)](https://genesis-world.readthedocs.io/en/latest/user_guide/index.html)
+[![Python](https://img.shields.io/badge/python-3.10-blue.svg)](https://docs.python.org/3/whatsnew/3.10.html)
+[![Linux platform](https://img.shields.io/badge/platform-linux--64-orange.svg)](https://releases.ubuntu.com/20.04/)
+[![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://pre-commit.com/)
+[![License](https://img.shields.io/badge/license-MIT-yellow.svg)](https://opensource.org/license/mit)
 
-## Table of Contents
-
-- [🦿 Legged Robotics in Genesis](#-legged-robotics-in-genesis)
-  - [Table of Contents](#table-of-contents)
-  - [📅 Updates](#-updates)
-  - [🌟 Features](#-features)
-  - [🧪 Test Results](#-test-results)
-  - [🛠 Installation](#-installation)
-  - [👋 Usage](#-usage)
-    - [🚀 Quick Start](#-quick-start)
-    - [📖 Instructions](#-instructions)
-  - [🖼️ Gallery](#️-gallery)
-  - [🙏 Acknowledgements](#-acknowledgements)
-  - [TODO](#todo)
+## **✨ New Features - Updated 🚀**
+✔️ **Flamingo rev.1.5.1: Latest version of Flamingo added.  
+✔️ **Flamingo Light v1**: Flamingo Light version added.  
+✔️ **Stack Environment**: Observations can be stacked with arguments(cfg).
+✔️ **RSL_RL**: latest version of rsl-rl lib adopted
 
 ---
 ## 📅 Updates
