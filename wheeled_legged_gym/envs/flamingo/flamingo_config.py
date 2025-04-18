@@ -179,8 +179,8 @@ class FlamingoCfg( WheeledLeggedRobotCfg ):
         randomize_friction = True
         friction_range = [0.3, 1.2]
 
-        randomize_base_mass = False
-        added_mass_range = [-1.5, 3.0]
+        randomize_base_mass = True
+        added_mass_range = [-1.0, 2.0]
 
         randomize_com_displacement = True
         com_displacement_range = [-0.002, 0.002]
