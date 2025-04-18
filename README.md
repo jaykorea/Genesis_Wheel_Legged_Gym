@@ -8,7 +8,7 @@
 
 ## **✨ New Features - Updated 🚀**
 ✔️ **Compatibility**: Fully adaptable with  leg / wheel robots
-✔️ **Flamingo rev.1.5.1: Latest version of Flamingo added.  
+✔️ **Flamingo rev.1.5.1**: Latest version of Flamingo added.  
 ✔️ **Flamingo Light v1**: Flamingo Light version added.  
 ✔️ **Stack Environment**: Observations can be stacked with arguments(cfg).
 ✔️ **RSL_RL**: latest version of rsl-rl(2.2.4) lib adopted
