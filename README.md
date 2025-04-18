@@ -52,7 +52,7 @@ conda create -n genesis-wlr python=3.10
 
 ### 🚀 Quick Start
 
-By default, the task is set to `go2`(in `utils/helper.py`), we can run a training session with the following command:
+By default, the task is set to `flamingo`, we can run a training session with the following command:
 
 ```bash
 cd wheeled_legged_gym/scripts
