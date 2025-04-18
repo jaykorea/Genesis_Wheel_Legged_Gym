@@ -9,9 +9,9 @@ setup(
     packages=find_packages(),
     author_email='jh.cho@cocelo.ai',
     description='Genesis environments for Legged-wheeled Robots',
-    install_requires=['co-rl-lib',
-                      'matplotlib',
+    install_requires=['matplotlib',
                       'pymeshlab',
-                      'prettytable',]
+                      'prettytable',
+                      'rsl-rl-lib',]
 )
 

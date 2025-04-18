@@ -134,7 +134,6 @@ class FlamingoCfg( WheeledLeggedRobotCfg ):
             # command tracking
             tracking_lin_vel = 2.0
             tracking_ang_vel = 1.0
-            
             # limitation
             torque_limits = -0.01
             dof_pos_limits = -10.0
@@ -144,7 +143,7 @@ class FlamingoCfg( WheeledLeggedRobotCfg ):
             shoulder_align = -1.0
             hip_deviations = -1.0
             shoulder_deviations = -1.0
-
+            
             # smooth
             dof_vel = 0.0
             dof_acc = -2.5e-7
@@ -180,7 +179,7 @@ class FlamingoCfg( WheeledLeggedRobotCfg ):
         randomize_friction = True
         friction_range = [0.3, 1.2]
 
-        randomize_base_mass = True
+        randomize_base_mass = False
         added_mass_range = [-1.5, 3.0]
 
         randomize_com_displacement = True
