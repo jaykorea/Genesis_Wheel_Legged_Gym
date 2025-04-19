@@ -14,6 +14,7 @@ setup(
                       'prettytable',
                       'rsl-rl-lib',
                       'onnxruntime',
-                      'tensorboard',]
+                      'tensorboard',
+                      'wandb',]
 )
 

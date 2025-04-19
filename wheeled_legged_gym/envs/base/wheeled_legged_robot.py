@@ -16,6 +16,7 @@ from wheeled_legged_gym.utils.helpers import class_to_dict
 from wheeled_legged_gym.utils.gs_utils import *
 from .wheeled_legged_robot_config import WheeledLeggedRobotCfg
 
+
 class LeggedRobot(BaseTask):
     def __init__(self, cfg: WheeledLeggedRobotCfg, sim_device, headless):
         """ Parses the provided config file,

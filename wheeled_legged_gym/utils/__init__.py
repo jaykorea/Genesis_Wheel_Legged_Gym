@@ -2,4 +2,4 @@ from .helpers import class_to_dict, get_load_path, export_policy_as_jit, export_
 from .task_registry import task_registry
 from .logger import Logger
 from .math import *
-from .lab import *
+from .io import *

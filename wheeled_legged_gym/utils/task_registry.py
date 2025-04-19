@@ -1,6 +1,8 @@
 import os
 from datetime import datetime
 from typing import Tuple
+import types
+
 
 from rsl_rl.env import VecEnv
 from rsl_rl.runners import OnPolicyRunner
@@ -66,6 +68,13 @@ class TaskRegistry():
         env = task_class(cfg=env_cfg,
                          sim_device=args.device,
                          headless=args.headless)
+        
+        # --- Attach to_dict for WandB ---
+        def _to_dict(self):
+            return class_to_dict(self)
+
+        env_cfg.to_dict = types.MethodType(_to_dict, env_cfg)
+
         return env, env_cfg
 
     def make_alg_runner(self, env, name=None, args=None, train_cfg=None, log_root="default") -> Tuple[OnPolicyRunner, WheeledLeggedRobotCfgPPO]:
@@ -110,8 +119,7 @@ class TaskRegistry():
         else:
             log_dir = os.path.join(log_root, train_cfg.run_name +  '_'  + datetime.now().strftime('%b%d_%H-%M-%S'))
 
-        train_cfg_dict = class_to_dict(train_cfg)
-        runner = OnPolicyRunner(env, train_cfg_dict, log_dir, device=args.device)
+        runner = OnPolicyRunner(env, class_to_dict(train_cfg), log_dir, device=args.device)
         #save resume path before creating a new log_dir
         resume = train_cfg.resume
         if resume:

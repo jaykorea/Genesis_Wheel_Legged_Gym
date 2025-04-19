@@ -1,0 +1,411 @@
+_wandb:
+    value:
+        cli_version: 0.19.9
+        m: []
+        python_version: 3.10.16
+        t:
+            "1":
+                - 1
+                - 55
+            "2":
+                - 1
+                - 55
+            "3":
+                - 3
+                - 13
+                - 23
+                - 55
+                - 61
+            "4": 3.10.16
+            "5": 0.19.9
+            "8":
+                - 5
+            "12": 0.19.9
+            "13": linux-x86_64
+alg_cfg:
+    value:
+        clip_param: 0.2
+        desired_kl: 0.01
+        entropy_coef: 0.01
+        gamma: 0.99
+        lam: 0.95
+        learning_rate: 0.001
+        max_grad_norm: 1
+        num_learning_epochs: 5
+        num_mini_batches: 4
+        schedule: adaptive
+        use_clipped_value_loss: true
+        value_loss_coef: 1
+env_cfg:
+    value:
+        asset:
+            all_dof_names: null
+            asset_type: mjcf
+            base_dof_names:
+                - base_free_joint
+            convexify: true
+            dof_names:
+                - left_hip_joint
+                - right_hip_joint
+                - left_shoulder_joint
+                - right_shoulder_joint
+                - left_leg_joint
+                - right_leg_joint
+                - left_wheel_joint
+                - right_wheel_joint
+            file: '{WHEELED_LEGGED_GYM_ROOT_DIR}/resources/robots/flamingo/xml/flamingo_v1_5_1.xml'
+            fix_base_link: false
+            foot_name:
+                - wheel
+            links_to_keep: []
+            penalize_contacts_on:
+                - base
+                - shoulder
+                - leg
+            self_collisions: false
+            terminate_after_contacts_on:
+                - base
+                - shoulder
+                - leg
+        commands:
+            curriculum: false
+            heading_command: false
+            max_curriculum: 1.5
+            num_commands: 3
+            ranges:
+                ang_vel_yaw:
+                    - -0
+                    - 0
+                heading:
+                    - 0
+                    - 0
+                lin_vel_x:
+                    - -0
+                    - 0
+                lin_vel_y:
+                    - -0
+                    - 0
+            resampling_time: 10
+        control:
+            control_p:
+                action_scale: 2
+                damping:
+                    left_hip_joint: 1.5
+                    left_leg_joint: 2
+                    left_shoulder_joint: 1.5
+                    right_hip_joint: 1.5
+                    right_leg_joint: 2
+                    right_shoulder_joint: 1.5
+                stiffness:
+                    left_hip_joint: 100
+                    left_leg_joint: 150
+                    left_shoulder_joint: 100
+                    right_hip_joint: 100
+                    right_leg_joint: 150
+                    right_shoulder_joint: 100
+                torque_limit:
+                    left_hip_joint: 60
+                    left_leg_joint: 60
+                    left_shoulder_joint: 60
+                    right_hip_joint: 60
+                    right_leg_joint: 60
+                    right_shoulder_joint: 60
+                vel_limit:
+                    left_hip_joint: 20
+                    left_leg_joint: 20
+                    left_shoulder_joint: 20
+                    right_hip_joint: 20
+                    right_leg_joint: 20
+                    right_shoulder_joint: 20
+            control_v:
+                action_scale: 20
+                damping:
+                    left_wheel_joint: 0.5
+                    right_wheel_joint: 0.5
+                stiffness:
+                    left_wheel_joint: 0
+                    right_wheel_joint: 0
+                torque_limit:
+                    left_wheel_joint: 60
+                    right_wheel_joint: 60
+                vel_limit:
+                    left_wheel_joint: 20
+                    right_wheel_joint: 20
+            decimation: 4
+            dt: 0.02
+            use_implicit_controller: true
+        domain_rand:
+            added_mass_range:
+                - -1
+                - 2
+            com_displacement_range:
+                - -0.002
+                - 0.002
+            friction_range:
+                - 0.3
+                - 1.5
+            max_push_vel_xy: 1
+            push_interval_s: 15
+            push_robots: true
+            randomize_base_mass: true
+            randomize_com_displacement: true
+            randomize_friction: true
+            simulate_action_latency: true
+        env:
+            debug: false
+            debug_viz: false
+            episode_length_s: 20
+            num_actions: 8
+            num_envs: 4096
+            num_observations: 28
+            num_privileged_obs: 31
+            num_stacks: 3
+            send_timeouts: true
+        init_state:
+            default_joint_angles:
+                left_hip_joint: 0
+                left_leg_joint: 0
+                left_shoulder_joint: 0
+                left_wheel_joint: 0
+                right_hip_joint: 0
+                right_leg_joint: 0
+                right_shoulder_joint: 0
+                right_wheel_joint: 0
+            default_joint_velocities:
+                left_hip_joint: 0
+                left_leg_joint: 0
+                left_shoulder_joint: 0
+                left_wheel_joint: 0
+                right_hip_joint: 0
+                right_leg_joint: 0
+                right_shoulder_joint: 0
+                right_wheel_joint: 0
+            pos:
+                - 0
+                - 0
+                - 0.38288
+            randomize_joint:
+                left_hip_joint: false
+                left_leg_joint: false
+                left_shoulder_joint: false
+                left_wheel_joint: false
+                range:
+                    - -0.1
+                    - 0.1
+                right_hip_joint: false
+                right_leg_joint: false
+                right_shoulder_joint: false
+                right_wheel_joint: false
+            ranges:
+                ang_vel_x:
+                    - -0
+                    - 0
+                ang_vel_y:
+                    - -0
+                    - 0
+                ang_vel_z:
+                    - -0
+                    - 0
+                lin_vel_x:
+                    - -0
+                    - 0
+                lin_vel_y:
+                    - -0
+                    - 0
+                lin_vel_z:
+                    - -0
+                    - 0
+                pitch:
+                    - -0
+                    - 0
+                roll:
+                    - -0
+                    - 0
+                yaw:
+                    - -3.14
+                    - 3.14
+            rot:
+                - 1
+                - 0
+                - 0
+                - 0
+        noise:
+            add_noise: true
+            noise_level: 1
+            noise_scales:
+                actions: 0
+                ang_vel: 0.25
+                commands: 0
+                dof_pos: 0.04
+                dof_vel: 1.5
+                gravity: 0.05
+        normalization:
+            clip_actions: 1
+            clip_observations: 100
+            obs_scales:
+                ang_vel: 0.25
+                dof_pos: 1
+                dof_vel: 0.05
+                gravity: 1
+                height_measurements: 5
+                lin_vel: 2
+        rewards:
+            base_height_target: 0.36288
+            only_positive_rewards: false
+            scales:
+                action_rate: -0.01
+                ang_vel_xy: -0.05
+                base_height: -5
+                collision: -1
+                dof_acc: -0
+                dof_close_to_default: -0
+                dof_pos_limits: -10
+                dof_vel: 0
+                dof_vel_limits: -0
+                feet_air_time: 0
+                feet_stumble: -0
+                hip_deviations: -5
+                lin_vel_z: -0.5
+                orientation: -2
+                shoulder_align: -1
+                shoulder_deviations: -1.5
+                stand_still: -0
+                termination: -200
+                torque_limits: -0.01
+                torques: -5e-05
+                tracking_ang_vel: 1.5
+                tracking_lin_vel: 2
+            soft_dof_pos_limit: 0.9
+            soft_dof_vel_limit: 0.9
+            soft_torque_limit: 0.8
+            termination_if_height_lower_than: 0.2
+            termination_if_pitch_greater_than: 0.4
+            termination_if_roll_greater_than: 0.4
+            tracking_sigma: 0.25
+        seed: 42
+        sim:
+            gravity:
+                - 0
+                - 0
+                - -9.81
+            precision: "32"
+        terrain:
+            border_size: 5
+            curriculum: false
+            friction: 1
+            horizontal_scale: 0.1
+            max_init_terrain_level: 1
+            measure_heights: false
+            measured_points_x:
+                - -0.8
+                - -0.7
+                - -0.6
+                - -0.5
+                - -0.4
+                - -0.3
+                - -0.2
+                - -0.1
+                - 0
+                - 0.1
+                - 0.2
+                - 0.3
+                - 0.4
+                - 0.5
+                - 0.6
+                - 0.7
+                - 0.8
+            measured_points_y:
+                - -0.5
+                - -0.4
+                - -0.3
+                - -0.2
+                - -0.1
+                - 0
+                - 0.1
+                - 0.2
+                - 0.3
+                - 0.4
+                - 0.5
+            mesh_type: plane
+            num_cols: 4
+            num_rows: 4
+            plane_length: 200
+            restitution: 0
+            selected: false
+            slope_treshold: 0.75
+            terrain_kwargs: null
+            terrain_length: 6
+            terrain_proportions:
+                - 0.1
+                - 0.1
+                - 0.35
+                - 0.25
+                - 0.2
+            terrain_width: 6
+            vertical_scale: 0.005
+        viewer:
+            add_camera: false
+            lookat:
+                - 11
+                - 5
+                - 3
+            num_rendered_envs: 12
+            pos:
+                - 10
+                - 0
+                - 6
+            ref_env: 0
+log_dir:
+    value: /home/jay/genesis_wlr/logs/flamingo_v1_5_1/stand_Apr20_02-41-56
+policy_cfg:
+    value:
+        activation: elu
+        actor_hidden_dims:
+            - 512
+            - 256
+            - 128
+        critic_hidden_dims:
+            - 512
+            - 256
+            - 128
+        init_noise_std: 1
+runner_cfg:
+    value:
+        algorithm:
+            clip_param: 0.2
+            desired_kl: 0.01
+            entropy_coef: 0.01
+            gamma: 0.99
+            lam: 0.95
+            learning_rate: 0.001
+            max_grad_norm: 1
+            num_learning_epochs: 5
+            num_mini_batches: 4
+            schedule: adaptive
+            use_clipped_value_loss: true
+            value_loss_coef: 1
+        checkpoint: -1
+        empirical_normalization: false
+        experiment_name: flamingo_v1_5_1
+        load_run: -1
+        logger: wandb
+        max_iterations: 3000
+        num_steps_per_env: 24
+        policy:
+            activation: elu
+            actor_hidden_dims:
+                - 512
+                - 256
+                - 128
+            critic_hidden_dims:
+                - 512
+                - 256
+                - 128
+            init_noise_std: 1
+        resume: false
+        resume_path: null
+        run_name: stand
+        runner_class_name: OnPolicyRunner
+        save_interval: 100
+        seed: 42
+        wandb_project: flamingo_v1_5_1

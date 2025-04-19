@@ -94,6 +94,10 @@ def update_cfg_from_args(env_cfg, cfg_train, args):
             cfg_train.load_run = args.load_run
         if args.seed is not None:
             cfg_train.seed = args.seed
+        if args.logger is not None:
+            cfg_train.logger = args.logger
+            if cfg_train.logger == "wandb":
+                cfg_train.wandb_project = cfg_train.experiment_name
 
     return env_cfg, cfg_train
 

@@ -1,10 +1,10 @@
 import os
 import argparse
-
 import genesis as gs
 from wheeled_legged_gym.envs import *
-from wheeled_legged_gym.utils import task_registry
-from wheeled_legged_gym.utils.lab import dump_yaml, class_to_dict
+from wheeled_legged_gym.utils import task_registry, class_to_dict
+from wheeled_legged_gym.utils.io import dump_yaml
+
 
 def get_args():
     parser = argparse.ArgumentParser()
@@ -18,6 +18,7 @@ def get_args():
     parser.add_argument('--max_iterations', type=int, default=3000)
     parser.add_argument('--resume',         type=str, default=False)
     parser.add_argument('--load_run',       type=str, default=-1)
+    parser.add_argument('--logger',         type=str, default=None)
     parser.add_argument('-o', '--offline',  action='store_true', default=False)
     parser.add_argument('--debug',          action='store_true', default=False)
 
@@ -43,7 +44,7 @@ def train(args):
     # print info
     env, env_cfg = task_registry.make_env(name=args.task, args=args)
     print(f"Start training for task: {args.task}")
-
+    
     runner, train_cfg = task_registry.make_alg_runner(env=env, name=args.task, args=args)
 
     dump_yaml(os.path.join(runner.log_dir, "params", "env.yaml"), env_cfg)
