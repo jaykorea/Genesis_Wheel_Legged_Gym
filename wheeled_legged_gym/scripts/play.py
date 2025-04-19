@@ -55,6 +55,7 @@ def play(args):
     # disable domain randomization
     env_cfg.noise.add_noise = False
     env_cfg.domain_rand.randomize_friction = False
+    env_cfg.domain_rand.friction_range = [1.0, 1.0]
     env_cfg.domain_rand.push_robots = False
     env_cfg.domain_rand.randomize_base_mass = False
     env_cfg.asset.fix_base_link = False

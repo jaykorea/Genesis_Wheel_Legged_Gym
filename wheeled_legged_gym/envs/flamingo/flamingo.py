@@ -63,14 +63,9 @@ class Flamingo(LeggedRobot):
         """ Computes the reward for shoulder alignment
             Returns a tensor of shape (num_envs, 1)
         """
-        penalty = torch.square(self.dof_pos[:, 2] - self.dof_pos[:, 3])
-        return penalty
-    
-    def _reward_hip_align(self):
-        """ Computes the reward for hip alignment
-            Returns a tensor of shape (num_envs, 1)
-        """
-        penalty = torch.square(self.dof_pos[:, 0] - self.dof_pos[:, 1])
+        left_idx = self.get_joint_name_idx("left_shoulder_joint")
+        right_idx = self.get_joint_name_idx("right_shoulder_joint")
+        penalty = torch.square(self.dof_pos[:, left_idx] - self.dof_pos[:, right_idx])
         return penalty
     
     def _reward_hip_deviations(self):

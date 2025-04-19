@@ -338,14 +338,14 @@ class LeggedRobot(BaseTask):
         # add terrain
         mesh_type = self.cfg.terrain.mesh_type
         if mesh_type=='plane':
-            # self.terrain = self.scene.add_entity(gs.morphs.URDF(file="urdf/plane/plane.urdf", fixed=True))
+            self.terrain = self.scene.add_entity(gs.morphs.URDF(file="urdf/plane/plane.urdf", fixed=True))
             self.scene.add_entity(gs.morphs.URDF(file="urdf/plane/plane.urdf", fixed=True))
         elif mesh_type=='heightfield':
             self.utils_terrain = Terrain(self.cfg.terrain)
             self._create_heightfield()
         elif mesh_type is not None:
             raise ValueError("Terrain mesh type not recognised. Allowed types are [None, plane, heightfield, trimesh]")
-        # self.terrain.set_friction(self.cfg.terrain.friction)
+        self.terrain.set_friction(self.cfg.terrain.friction)
         # specify the boundary of the heightfield
         self.terrain_x_range = torch.zeros(2, device=self.device)
         self.terrain_y_range = torch.zeros(2, device=self.device)
@@ -741,7 +741,7 @@ class LeggedRobot(BaseTask):
                     quat=np.array(self.cfg.init_state.rot),
                 ),
                 visualize_contact=self.debug,
-                vis_mode="collision",
+                vis_mode="visual",
             )
         
         # Build the scene for the given number of environments.
@@ -765,12 +765,9 @@ class LeggedRobot(BaseTask):
         self.joint_name_to_idx = {name: idx for idx, name in enumerate(self.dof_names)}
 
         # Randomize friction, base mass, and COM displacement if configured.
-        if self.cfg.domain_rand.randomize_friction:
-            self._randomize_friction()
-        if self.cfg.domain_rand.randomize_base_mass:
-            self._randomize_base_mass()
-        if self.cfg.domain_rand.randomize_com_displacement:
-            self._randomize_com_displacement()
+        self._randomize_friction()
+        self._randomize_base_mass()
+        self._randomize_com_displacement()
 
         # Set up control indices.
         self.p_indices = []      # Relative indices for dof_pos.
@@ -1083,18 +1080,26 @@ class LeggedRobot(BaseTask):
 
     def get_joint_name_idx(self, joint_names):
         """
-        Returns the list of joint indices matching the given regex pattern.
+        Returns either a single int or a list of ints matching the given regex pattern.
 
         Args:
-            pattern (str): Regex pattern for joint names (e.g., '.*_shoulder_joint')
+            joint_names (str): Regex pattern for joint names (e.g., '.*_shoulder_joint')
 
         Returns:
-            List[int]: List of indices (not torch.Tensor)
+            int or List[int]:  
+                - If exactly one joint matches, returns its index (int).  
+                - If multiple match, returns a list of indices.  
+                - If none match, raises a ValueError.
         """
-        return [
+        matches = [
             idx for name, idx in self.joint_name_to_idx.items()
             if re.fullmatch(joint_names, name)
         ]
+        if not matches:
+            raise ValueError(f"No joints match pattern '{joint_names}'")
+        if len(matches) == 1:
+            return matches[0]
+        return matches
 
     #------------ reward functions----------------
     def _reward_tracking_lin_vel(self):

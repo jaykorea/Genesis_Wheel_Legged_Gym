@@ -59,7 +59,7 @@
                             <inertial pos="-9.32e-06 0.00028106 0.0421318" quat="0.5 0.5 -0.5 0.5" mass="0.9575" diaginertia="0.00566733 0.00313555 0.00313555"/>
                             <geom type="mesh" mesh="left_wheel_link" rgba="0.2 0.2 0.2 1" class="visual"/>
                             <joint name="left_wheel_joint" pos="0 0 0" axis="0 0 1" type="hinge" limited="false" class="wheels"/>
-                            <geom size="0.118 0.01875" pos="0 0 0.06025" friction="0.8 0.02 0.01" type="cylinder" rgba="0.8 0.2 0.2 0.3" class="collision"/>
+                            <geom size="0.118 0.01875" pos="0 0 0.06025" type="cylinder" rgba="0.8 0.2 0.2 0.3" class="collision"/>
                         </body>
                     </body>
                 </body>
@@ -83,7 +83,7 @@
                             <inertial pos="6.639e-05 0.00027326 0.0421318" quat="0.5 0.5 -0.5 0.5" mass="0.9575" diaginertia="0.00566733 0.00313555 0.00313555"/>
                             <geom type="mesh" mesh="right_wheel_link" rgba="0.2 0.2 0.2 1" class="visual"/>
                             <joint name="right_wheel_joint" pos="0 0 0" axis="0 0 -1" type="hinge" limited="false" class="wheels"/>
-                            <geom size="0.118 0.01875" pos="0 0 0.06025" friction="0.8 0.02 0.01" type="cylinder" rgba="0.8 0.2 0.2 0.3" class="collision"/>
+                            <geom size="0.118 0.01875" pos="0 0 0.06025" type="cylinder" rgba="0.8 0.2 0.2 0.3" class="collision"/>
                         </body>
                     </body>
                 </body>
@@ -97,7 +97,7 @@
             <geom type="mesh" pos="-0.033483 0.035988 0.205" quat="0 1 0 0" rgba="0.15 0.15 0.15 1" mesh="sbc_link" class="visual"/>
 
             <geom type="mesh" pos="-0.039666 -0.054781 0.191" quat="1 0 0 0" rgba="0.15 0.15 0.15 1" mesh="main_pdb_link" class="visual"/>
-            <geom type="mesh" pos="-0.14875 0 0.122" quat="1 0 0 0" rgba="0.15 0.15 0.15 1" mesh="switch_link" class="visual"/>
+            <geom type="mesh" pos="-0.07875 0 0.242" quat="1 0 0 0" rgba="0.15 0.15 0.15 1" mesh="switch_link" class="visual"/>
             <geom type="mesh" pos="0.02375 0 0.052157" quat="1 0 0 0" rgba="0.15 0.15 0.15 1" mesh="front_plate_link" class="visual"/>
             <geom type="mesh" pos="-0.02375 0 0.0593568" quat="1 0 0 0" rgba="0.15 0.15 0.15 1" mesh="back_plate_link" class="visual"/>
             <geom type="mesh" pos="0.07925 0 0.16004" quat="1 0 0 0" rgba="0.15 0.15 0.15 1" mesh="front_cover_link" class="visual"/>

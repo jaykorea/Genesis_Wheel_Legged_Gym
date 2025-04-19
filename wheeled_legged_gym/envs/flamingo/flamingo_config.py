@@ -73,14 +73,14 @@ class FlamingoCfg( WheeledLeggedRobotCfg ):
         decimation = 4
         class control_p:
             stiffness = {
-                'left_hip_joint': 75.0      , 'right_hip_joint': 75.0,
-                'left_shoulder_joint': 75.0 , 'right_shoulder_joint': 75.0,
-                'left_leg_joint': 75.0      , 'right_leg_joint': 75.0,
+                'left_hip_joint':100.0      , 'right_hip_joint': 100.0,
+                'left_shoulder_joint': 100.0 , 'right_shoulder_joint': 100.0,
+                'left_leg_joint': 150.0      , 'right_leg_joint': 150.0,
                 } # [N*m/rad]
             damping = {
                 'left_hip_joint': 1.5       , 'right_hip_joint': 1.5,
                 'left_shoulder_joint': 1.5  , 'right_shoulder_joint': 1.5,
-                'left_leg_joint': 1.5       , 'right_leg_joint': 1.5,
+                'left_leg_joint': 2.0       , 'right_leg_joint': 2.0,
                 } # [N*m*s/rad]
             torque_limit =  {
                 'left_hip_joint': 60.0      , 'right_hip_joint': 60.0,
@@ -96,7 +96,7 @@ class FlamingoCfg( WheeledLeggedRobotCfg ):
 
         class control_v:
             stiffness =     {'left_wheel_joint': 0.0,  'right_wheel_joint': 0.0}  # [N*m/rad]
-            damping =       {'left_wheel_joint': 0.4, 'right_wheel_joint': 0.4}     # [N*m*s/rad]
+            damping =       {'left_wheel_joint': 0.5, 'right_wheel_joint': 0.5}     # [N*m*s/rad]
             torque_limit =  {'left_wheel_joint': 60.0, 'right_wheel_joint': 60.0} # [N*m]
             vel_limit =     {'left_wheel_joint': 20.0, 'right_wheel_joint': 20.0}
             action_scale = 20.0
@@ -133,28 +133,27 @@ class FlamingoCfg( WheeledLeggedRobotCfg ):
         class scales( WheeledLeggedRobotCfg.rewards.scales ):
             # command tracking
             tracking_lin_vel = 2.0
-            tracking_ang_vel = 1.0
+            tracking_ang_vel = 1.5
             # limitation
             torque_limits = -0.01
             dof_pos_limits = -10.0
             dof_vel_limits = -0.0
             collision = -1.0
-            hip_align = -2.0
             shoulder_align = -1.0
-            hip_deviations = -1.0
+            hip_deviations = -5.0
             shoulder_deviations = -1.0
             
             # smooth
             dof_vel = 0.0
-            dof_acc = -2.5e-7
+            dof_acc = -0.0 # -2.5e-7
             action_rate = -0.01
-            torques = -5.0e-6
+            torques = -5.0e-5
 
             # balance
             ang_vel_xy = -0.05
-            lin_vel_z = -1.0
-            base_height = -15.0
-            orientation = -1.5
+            lin_vel_z = -0.5
+            base_height = -5.0
+            orientation = -2.0
             dof_close_to_default = -0.0
             # gait
             feet_air_time = 0.0
@@ -177,7 +176,7 @@ class FlamingoCfg( WheeledLeggedRobotCfg ):
 
     class domain_rand:   
         randomize_friction = True
-        friction_range = [0.3, 1.2]
+        friction_range = [0.3, 1.5]
 
         randomize_base_mass = True
         added_mass_range = [-1.0, 2.0]
@@ -198,7 +197,7 @@ class FlamingoCfg( WheeledLeggedRobotCfg ):
         class noise_scales:
             dof_pos = 0.04
             dof_vel = 1.5
-            ang_vel = 0.2
+            ang_vel = 0.25
             gravity = 0.05
             actions = 0.0
             commands = 0.0
@@ -218,6 +217,3 @@ class FlamingoCfgPPO( WheeledLeggedRobotCfgPPO ):
     load_run = -1
     checkpoint = -1
     max_iterations = 1000
-
-    # class algorithm( LeggedRobotCfgPPO.algorithm ):
-    #     entropy_coef = 0.01
