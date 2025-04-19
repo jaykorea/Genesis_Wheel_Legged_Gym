@@ -60,3 +60,6 @@ __pycache__
 
 # Genesis dev
 Genesis
+
+# Wandb logger
+wandb/
